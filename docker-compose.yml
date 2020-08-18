@@ -1,0 +1,23 @@
+version: '2'
+services:
+
+  common_db:
+    image: postgres:10.4
+    restart: always
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_MULTIPLE_DATABASES=db1
+    volumes:
+      - ../myscript.sql:/docker-entrypoint-initdb.d/myscript.sql
+      - ./postgres-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    networks:
+       - app-network
+
+volumes:
+  postgres-data:
+networks:
+  app-network:
+    driver: bridge
